@@ -88,6 +88,8 @@ REST_FRAMEWORK = {
 
 REST_USE_JWT = True
 
+CELERY_BROKER_URL='ampq://localhost'
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
