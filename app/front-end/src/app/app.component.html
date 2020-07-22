@@ -34,11 +34,13 @@
 
 <div>
   Username
-  <div class="col-md-9 mb-1"><input type="text" name="body" [(ngModel)]="new_user.username"></div>
+  <div class="col-md-9 mb-1"><input type="text" name="username" [(ngModel)]="new_user.username"></div>
   Email
-  <div class="col-md-9 mb-1"><input type="email" name="body" [(ngModel)]="new_user.email"></div>
+  <div class="col-md-9 mb-1"><input type="email" name="email" [(ngModel)]="new_user.email"></div>
   Password
-  <div class="col-md-9 mb-1"><input type="password" name="body" [(ngModel)]="new_user.password"></div>
+  <div class="col-md-9 mb-1"><input type="password" name="password" [(ngModel)]="new_user.password"></div>
+  Photo
+  <div class="col-md-9 mb-1"><input type="file" name="image" accept="image" [(ngModel)]="new_user.profile"></div>
   <div class="col-md-2 offset-3">
     <button (click)="createUser()" class="btn btn-primary">Save</button>
 </div>

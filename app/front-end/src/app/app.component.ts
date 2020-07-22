@@ -18,17 +18,16 @@ export class AppComponent implements OnInit {
 	constructor(public _userService:UserService){ }
 
 	ngOnInit(){
-		this.getUser();
 		this.new_user = {};
 		this.user = {
 			username: '',
-			password: '',
-			email: ''
+			email: '',
+			password: ''
 		};
 	}
 
 	login(){
-		this._userService.login({'username':this.user.username, 'password' : this.user.password , 'email' :this.user.email});
+		this._userService.login({'username':this.user.username,'email' :this.user.email,'password' : this.user.password});
 	}
 
 	logout(){

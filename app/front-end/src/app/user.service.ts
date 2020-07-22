@@ -35,7 +35,14 @@ export class UserService {
   }
 
   public login(user) {
-    this.http.post('/api/auth/login/', JSON.stringify(user), this.httpOptions).subscribe(
+    console.log(user);
+    console.log(JSON.stringify(user));
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+    this.http.post('/api/auth/login/', JSON.stringify(user),httpOptions).subscribe(
       data => {
         this.updateData(data['token'],data['user']['pk']);
 
@@ -57,7 +64,7 @@ export class UserService {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + this.token
+        'Authorization': 'JWT ' + this.token
       })
     };
     return this.http.get('/api/users/${this.pk}/',httpOptions);
