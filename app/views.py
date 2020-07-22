@@ -16,33 +16,6 @@ from .permissions import IsLoggedInUserOrAdmin,IsAdminUser
 def index(request):
     return render(request, 'index.html')
 
-# @api_view(['GET','DELETE','POST'])
-# @renderer_classes([TemplateHTMLRenderer])
-# def users(request,pk):
-#     serializer_context = {
-#     'request': request,
-#     }
-
-#     try:
-#         user=User.objects.get(pk=pk)
-#     except User.DoesNotExist:
-#         return Response(status=status.HTTP_404_NOT_FOUND,template_name='user_detail.html')
-
-#     if request.method=='GET':
-#         serializer=UserSerializer(user,context=serializer_context)
-#         return Response({'serializer':serializer},template_name='user_detail.html')
-
-#     elif request.method == 'DELETE':
-#         user.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT,template_name='user_detail.html')
-#     elif request.method == 'POST':
-#         serializer=UserSerializer(user,data=request.data,context=serializer_context)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_204_NO_CONTENT,template_name='user_detail.html')
-#         return Response(serializer.data,status=status.HTTP_404_NOT_FOUND,template_name='user_detail.html')
-
-
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer

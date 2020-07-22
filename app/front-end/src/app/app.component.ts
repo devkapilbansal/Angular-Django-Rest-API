@@ -13,17 +13,52 @@ export class AppComponent implements OnInit {
 	
 	public user: any;
 
-	public new_user: any;
+	public lo;
+
+	username: string;
+
+	password: string;
+
+	email: string;
+
+	first_name: string;
+
+	last_name: string;
+
+	photo: File;
 
 	constructor(public _userService:UserService){ }
 
 	ngOnInit(){
-		this.new_user = {};
 		this.user = {
 			username: '',
 			email: '',
 			password: ''
 		};
+	}
+
+	usernamechange(event: any){
+		this.username=event.target.value;
+	}
+
+	passwordchange(event: any){
+		this.password=event.target.value;
+	}
+
+	emailchange(event: any){
+		this.email=event.target.value;
+	}
+
+	photochange(event: any){
+		this.photo=event.target.files[0];
+	}
+
+	firstnamechange(event: any){
+		this.first_name=event.target.value;
+	}
+
+	lastnamechange(event: any){
+		this.last_name=event.target.value;
 	}
 
 	login(){
@@ -35,17 +70,26 @@ export class AppComponent implements OnInit {
 	}
 
 	getUser(){
-		this._userService.list(this.user.token);
+		this._userService.list();
 	}
 
 	createUser(){
-		this._userService.create(this.new_user).subscribe(
+		const uploadData = new FormData();
+		uploadData.append('username',this.username);
+		uploadData.append('email',this.email);
+		uploadData.append('first_name',this.first_name);
+		uploadData.append('last_name',this.last_name);
+		uploadData.append('password',this.password);
+		uploadData.append('photo',this.photo,this.photo.name);
+		this._userService.create(uploadData).subscribe(
 			data => {
+				alert("check your email to activate your profile");
 				this.getUser();
 				return true;
 			},
 			error => {
 				console.error('Error saving!');
+				console.log(error);
 				return throwError(error);
 				}
 		);

@@ -25,13 +25,13 @@ export class UserService {
     };
   }
 
-  create(post) {
+  create(data) {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       })
     };
-    return this.http.post('/api/users/', JSON.stringify(post), httpOptions);
+    return this.http.post('http://localhost:8000/api/users/',data);
   }
 
   public login(user) {
@@ -60,7 +60,7 @@ export class UserService {
     this.username = null;
   }
 
-  list(token) {
+  list() {
     let httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
