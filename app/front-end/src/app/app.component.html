@@ -1,6 +1,5 @@
-
-  <div class="row" *ngIf="!_userService.token">
-    <div class="container">
+<div class="row" *ngIf="!_userService.token">
+  <div class="container">
     <div class="col-md-12">
       <button (click)="myFunction()" class="btn btn-primary mb-2 w-100">Log In</button>
     </div>
@@ -8,65 +7,65 @@
       <button (click)="myfunction()" class="btn btn-primary mt-2 w-100">Create User</button>
     </div>
   </div>
-    <div class="col-md-12 p-5" style="display: none;" id="myDIV">
-      <h3>Log In Form</h3>
-      <form>
-        <div class="form-group">
-          <label>Username:</label><br />
-          <input type="text" name="login-username" class="form-control" placeholder="Username"
-            [(ngModel)]="user.username">
-          <span *ngFor="let error of _userService.errors.username"><br />
-            {{ error }}</span>
-        </div>
-        <div class="form-group">
-          <label>Password:</label><br />
-          <input type="password" name="login-password" class="form-control" placeholder="Password"
-            [(ngModel)]="user.password">
-          <span *ngFor="let error of _userService.errors.password"><br />
-            {{ error }}</span>
-        </div>
-        <div class="form-group">
-          <label>Email Address:</label><br />
-          <input type="email" name="login-email" class="form-control" placeholder="Email" [(ngModel)]="user.email">
-          <span *ngFor="let error of _userService.errors.email"><br />
-            {{ error }}</span>
-        </div>
-        <div class="form-group">
-          <button (click)="login()" class="btn btn-outline-success">Log In</button>
-        </div>
-        <div class="col-sm-12 alert alert-danger">
-          <span *ngFor="let error of _userService.errors.non_field_errors">{{ error }}<br /></span>
-        </div>
-      </form>
-    </div>
-    <div class="col-md-12 p-5" style="display: none;" id="Div2">
-      <h3> Create User Form </h3>
-      <form [formGroup]="form" (ngSubmit)="createUser()">
-        <div class="progress form-group" *ngIf="progress > 0">
-          <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress"></div>
-        </div>
-        <div class=" form-group ">
-          <label>Username:</label>
-          <input type="text" formControlName="username" class="form-control" placeholder="Uername">
-        </div>
-        <div class="form-group ">
-          <label>Email:</label>
-          <input type="email" formControlName="email" class="form-control" placeholder="Email">
-        </div>
-        <div class="form-group">
-          <label>Password:</label>
-          <input type="password" formControlName="password" class="form-control" placeholder="Password">
-        </div>
-        <div class="form0group">
-          <label>Photo:</label>
-          <input type="file" name="image" accept="image" (change)="photochange($event)">
-        </div>
-        <div class="form-group">
+  <div class="col-md-12 p-5" style="display: none;" id="myDIV">
+    <h3>Log In Form</h3>
+    <form>
+      <div class="form-group">
+        <label>Username:</label><br />
+        <input type="text" name="login-username" class="form-control" placeholder="Username"
+          [(ngModel)]="user.username">
+        <span *ngFor="let error of _userService.errors.username"><br />
+          {{ error }}</span>
+      </div>
+      <div class="form-group">
+        <label>Password:</label><br />
+        <input type="password" name="login-password" class="form-control" placeholder="Password"
+          [(ngModel)]="user.password">
+        <span *ngFor="let error of _userService.errors.password"><br />
+          {{ error }}</span>
+      </div>
+      <div class="form-group">
+        <label>Email Address:</label><br />
+        <input type="email" name="login-email" class="form-control" placeholder="Email" [(ngModel)]="user.email">
+        <span *ngFor="let error of _userService.errors.email"><br />
+          {{ error }}</span>
+      </div>
+      <div class="form-group">
+        <button (click)="login()" class="btn btn-outline-success">Log In</button>
+      </div>
+      <div class="col-sm-12 alert alert-danger">
+        <span *ngFor="let error of _userService.errors.non_field_errors">{{ error }}<br /></span>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-12 p-5" style="display: none;" id="Div2">
+    <h3> Create User Form </h3>
+    <form [formGroup]="form" (ngSubmit)="createUser()">
+      <div class="progress form-group" *ngIf="progress > 0">
+        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress"></div>
+      </div>
+      <div class=" form-group ">
+        <label>Username:</label>
+        <input type="text" formControlName="username" class="form-control" placeholder="Uername">
+      </div>
+      <div class="form-group ">
+        <label>Email:</label>
+        <input type="email" formControlName="email" class="form-control" placeholder="Email">
+      </div>
+      <div class="form-group">
+        <label>Password:</label>
+        <input type="password" formControlName="password" class="form-control" placeholder="Password">
+      </div>
+      <div class="form0group">
+        <label>Photo:</label>
+        <input type="file" name="image" accept="image" (change)="photochange($event)">
+      </div>
+      <div class="form-group">
 
-          <button class="btn btn-success">Save</button>
-        </div>
-      </form>
-    </div>
+        <button class="btn btn-success">Save</button>
+      </div>
+    </form>
+  </div>
 </div>
 <div class="row" *ngIf="_userService.token">
   <div class="col-sm-12 p-3">
@@ -77,15 +76,13 @@
       Token Expires: {{ _userService.token_expires }}
     </div>
     <div *ngIf="_userService.photo">
-    <div class="alert alert-dark">
-      Your Email:- {{_userService.email }}
-      <br>
-      Full Name:- {{ _userService.first_name }} {{ _userService.last_name}}
-    </div>
+      <div class="alert alert-dark">
+        Your Email:- {{_userService.email }}
+      </div>
       Profile Photo:- <img src="{{ _userService.photo }}" height="500" width="500">
     </div>
     <div *ngIf="!_userService.photo">
-      <button (click)="_userService.list()" class="btn btn-outline-info w-100 m-2">Profile Picture</button></div>
+      <button (click)="_userService.list()" class="btn btn-outline-info w-100 m-2">Your Details</button></div>
 
     <button (click)="logout()" class="btn btn-primary">Log Out</button>
   </div>
