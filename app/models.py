@@ -9,7 +9,7 @@ class User(AbstractUser):
 	photo = models.ImageField(upload_to='uploads', blank=True)
 
 	USERNAME_FIELD = 'email'
-	REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+	REQUIRED_FIELDS = ['username', 'first_name', 'last_name','photo']
 
 	def __str__(self):
 		return "{}".format(self.email)

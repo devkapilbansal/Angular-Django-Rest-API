@@ -1,5 +1,7 @@
 import { Component,OnInit } from '@angular/core';
 import {UserService} from './user.service';
+import { FormBuilder,FormGroup } from "@angular/forms";
+import {HttpClient, HttpHeaders,HttpEvent,HttpEventType} from '@angular/common/http';
 import {throwError} from 'rxjs';
 
 
@@ -13,9 +15,11 @@ export class AppComponent implements OnInit {
 	
 	public user: any;
 
-	public lo;
-
 	username: string;
+
+	progress: number=0;
+
+	form: FormGroup;
 
 	password: string;
 
@@ -27,7 +31,16 @@ export class AppComponent implements OnInit {
 
 	photo: File;
 
-	constructor(public _userService:UserService){ }
+	constructor(public fb: FormBuilder, private http: HttpClient,public _userService:UserService){ 
+		this.form=this.fb.group({
+			username: [''],
+			email: [''],
+			first_name: [''],
+			last_name: [''],
+			password: [''],
+			photo: [null]
+		})
+	}
 
 	ngOnInit(){
 		this.user = {
@@ -37,28 +50,12 @@ export class AppComponent implements OnInit {
 		};
 	}
 
-	usernamechange(event: any){
-		this.username=event.target.value;
-	}
-
-	passwordchange(event: any){
-		this.password=event.target.value;
-	}
-
-	emailchange(event: any){
-		this.email=event.target.value;
-	}
-
 	photochange(event: any){
-		this.photo=event.target.files[0];
-	}
-
-	firstnamechange(event: any){
-		this.first_name=event.target.value;
-	}
-
-	lastnamechange(event: any){
-		this.last_name=event.target.value;
+		const file=(event.target as HTMLInputElement).files[0];
+		this.form.patchValue({
+			photo: file
+		});
+		this.form.get('photo').updateValueAndValidity()
 	}
 
 	login(){
@@ -68,30 +65,39 @@ export class AppComponent implements OnInit {
 	logout(){
 		this._userService.logout();
 	}
-
-	getUser(){
-		this._userService.list();
-	}
-
 	createUser(){
 		const uploadData = new FormData();
-		uploadData.append('username',this.username);
-		uploadData.append('email',this.email);
-		uploadData.append('first_name',this.first_name);
-		uploadData.append('last_name',this.last_name);
-		uploadData.append('password',this.password);
-		uploadData.append('photo',this.photo,this.photo.name);
+		uploadData.append('username',this.form.value.username);
+		uploadData.append('email',this.form.value.email);
+		uploadData.append('first_name',this.form.value.first_name);
+		uploadData.append('last_name',this.form.value.last_name);
+		uploadData.append('password',this.form.value.password);
+		uploadData.append('photo',this.form.value.photo,this.form.value.photo.name);
 		this._userService.create(uploadData).subscribe(
+			(event: HttpEvent<any>) =>{
+				switch(event.type){
+					case HttpEventType.Sent:
+					console.log('Request Made');
+					break;
+					case HttpEventType.ResponseHeader:
+					console.log("ResponseHeader Received");
+					break;
+					case HttpEventType.UploadProgress:
+					this.progress = Math.round(event.loaded/event.total * 100);
+					console.log(`Uploaded ${this.progress}%`);
+					break;
+					case HttpEventType.Response:
+					alert("check your email to activate your profile");
+					console.log('User Created',event.body);
+					setTimeout(() =>{
+						this.progress=0;
+					},1500);
+				}
+			},
 			data => {
 				alert("check your email to activate your profile");
-				this.getUser();
 				return true;
-			},
-			error => {
-				console.error('Error saving!');
-				console.log(error);
-				return throwError(error);
-				}
+			}
 		);
 	}
 
