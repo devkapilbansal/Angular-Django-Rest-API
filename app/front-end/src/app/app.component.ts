@@ -1,23 +1,22 @@
-import { Component,OnInit } from '@angular/core';
-import {UserService} from './user.service';
-import { FormBuilder,FormGroup } from "@angular/forms";
-import {HttpClient, HttpHeaders,HttpEvent,HttpEventType} from '@angular/common/http';
-import {throwError} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from './user.service';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { HttpClient, HttpHeaders, HttpEvent, HttpEventType } from '@angular/common/http';
+import { throwError } from 'rxjs';
 
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+	selector: 'app-root',
+	templateUrl: './app.component.html',
 })
 
 export class AppComponent implements OnInit {
-	
+
 	public user: any;
 
 	username: string;
 
-	progress: number=0;
+	progress: number = 0;
 
 	form: FormGroup;
 
@@ -31,8 +30,8 @@ export class AppComponent implements OnInit {
 
 	photo: File;
 
-	constructor(public fb: FormBuilder, private http: HttpClient,public _userService:UserService){ 
-		this.form=this.fb.group({
+	constructor(public fb: FormBuilder, private http: HttpClient, public _userService: UserService) {
+		this.form = this.fb.group({
 			username: [''],
 			email: [''],
 			first_name: [''],
@@ -42,7 +41,7 @@ export class AppComponent implements OnInit {
 		})
 	}
 
-	ngOnInit(){
+	ngOnInit() {
 		this.user = {
 			username: '',
 			email: '',
@@ -50,48 +49,70 @@ export class AppComponent implements OnInit {
 		};
 	}
 
-	photochange(event: any){
-		const file=(event.target as HTMLInputElement).files[0];
+	photochange(event: any) {
+		const file = (event.target as HTMLInputElement).files[0];
 		this.form.patchValue({
 			photo: file
 		});
 		this.form.get('photo').updateValueAndValidity()
 	}
 
-	login(){
-		this._userService.login({'username':this.user.username,'email' :this.user.email,'password' : this.user.password});
+	myFunction() {
+		var x = document.getElementById("myDIV");
+		var y = document.getElementById("Div2");
+		if (x.style.display === "none" || y.style.display === "block") {
+			x.style.display = "block";
+			y.style.display = "none";
+		} else {
+			x.style.display = "none";
+		}
 	}
 
-	logout(){
+	myfunction() {
+		var x = document.getElementById("Div2");
+		var y = document.getElementById("myDIV");
+		if (x.style.display === "none" || y.style.display === "block") {
+			x.style.display = "block";
+			y.style.display = "none";
+		} else {
+			x.style.display = "none";
+		}
+	}
+
+	login() {
+		this._userService.login({ 'username': this.user.username, 'email': this.user.email, 'password': this.user.password });
+	}
+
+	logout() {
 		this._userService.logout();
 	}
-	createUser(){
+	createUser() {
 		const uploadData = new FormData();
-		uploadData.append('username',this.form.value.username);
-		uploadData.append('email',this.form.value.email);
-		uploadData.append('first_name',this.form.value.first_name);
-		uploadData.append('last_name',this.form.value.last_name);
-		uploadData.append('password',this.form.value.password);
-		uploadData.append('photo',this.form.value.photo,this.form.value.photo.name);
+		uploadData.append('username', this.form.value.username);
+		uploadData.append('email', this.form.value.email);
+		uploadData.append('first_name', this.form.value.first_name);
+		uploadData.append('last_name', this.form.value.last_name);
+		uploadData.append('password', this.form.value.password);
+		uploadData.append('photo', this.form.value.photo, this.form.value.photo.name);
 		this._userService.create(uploadData).subscribe(
-			(event: HttpEvent<any>) =>{
-				switch(event.type){
+			(event: HttpEvent<any>) => {
+				switch (event.type) {
 					case HttpEventType.Sent:
-					console.log('Request Made');
-					break;
+						console.log('Request Made');
+						break;
 					case HttpEventType.ResponseHeader:
-					console.log("ResponseHeader Received");
-					break;
+						console.log("ResponseHeader Received");
+						break;
 					case HttpEventType.UploadProgress:
-					this.progress = Math.round(event.loaded/event.total * 100);
-					console.log(`Uploaded ${this.progress}%`);
-					break;
+						this.progress = Math.round(event.loaded / event.total * 100);
+						console.log(`Uploaded ${this.progress}%`);
+						break;
 					case HttpEventType.Response:
-					alert("check your email to activate your profile");
-					console.log('User Created',event.body);
-					setTimeout(() =>{
-						this.progress=0;
-					},1500);
+						alert("Account Created Successfull");
+						console.log('User Created', event.body);
+						setTimeout(() => {
+							this.progress = 0;
+						}, 1500);
 				}
 			},
 			data => {
